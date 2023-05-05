@@ -1,15 +1,10 @@
-import BookSchema, { IBook } from "../models/book.model";
 import { FastifyRequest } from "fastify";
-import { Book } from "../types/book";
+import { Book } from "../types";
+import { BookService } from "../services";
 
 // Fetch all books
-export const getBooks = async (): Promise<IBook[]> => {
-  try {
-    const books = await BookSchema.find();
-    return books;
-  } catch (err) {
-    throw err;
-  }
+export const getBooks = async (): Promise<Book[]> => {
+  return await BookService.getBooks();
 };
 
 // Fetch a single book
@@ -17,43 +12,31 @@ export const getSingleBook = async (
   req: FastifyRequest<{
     Params: { id: string };
   }>
-) => {
-  try {
-    const id = req.params.id;
-    const book = await BookSchema.findById(id);
-    return book;
-  } catch (err) {
-    throw err;
-  }
+): Promise<Book> => {
+  const id = req.params.id;
+  return await BookService.getSingleBook(id);
 };
 
 // Create a new book
-export const addBook = async (req: FastifyRequest) => {
-  try {
-    const book = new BookSchema(req.body);
-    return await book.save();
-  } catch (err) {
-    throw err;
-  }
+export const addBook = async (
+  req: FastifyRequest<{
+    Body: Book;
+  }>
+): Promise<Book> => {
+  const payload = req.body;
+  return await BookService.addBook(payload);
 };
 
 // Update a single book
 export const updateBook = async (
   req: FastifyRequest<{
     Params: { id: string };
+    Body: Book;
   }>
-) => {
-  try {
-    const id = req.params.id;
-    const book = req.body;
-    const { ...updateData }: Book = book as Book;
-    const update = await BookSchema.findByIdAndUpdate(id, updateData, {
-      new: true,
-    });
-    return update;
-  } catch (err) {
-    throw err;
-  }
+): Promise<Book> => {
+  const id = req.params.id;
+  const payload: Book = req.body;
+  return BookService.updateBook(id, payload);
 };
 
 // Delete a single book
@@ -61,12 +44,22 @@ export const deleteBook = async (
   req: FastifyRequest<{
     Params: { id: string };
   }>
-) => {
-  try {
-    const id = req.params.id;
-    const book = await BookSchema.findByIdAndRemove(id);
-    return book;
-  } catch (err) {
-    throw err;
-  }
+): Promise<Book> => {
+  const id = req.params.id;
+  return await BookService.deleteBook(id);
 };
+
+// Get
+// export const deleteBook = async (
+//   req: FastifyRequest<{
+//     Params: { id: string };
+//   }>
+// ) => {
+//   try {
+//     const id = req.params.id;
+//     const book = await BookSchema.findByIdAndRemove(id);
+//     return book;
+//   } catch (err) {
+//     throw err;
+//   }
+// };

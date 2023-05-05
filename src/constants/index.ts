@@ -1,0 +1,6 @@
+export enum BookStatus {
+  NOT_ADVERTISED = "NOT_ADVERTISED",
+  ADVERTISED = "ADVERTISED",
+  DELETED = "DELETED",
+  SOLD = "SOLD",
+}

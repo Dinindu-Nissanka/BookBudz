@@ -1,28 +1,15 @@
-import fastify, { FastifyInstance, RouteOptions } from "fastify";
+import fastify, { FastifyInstance } from "fastify";
 import routes from "./routes";
-import { IncomingMessage, Server, ServerResponse } from "http";
 import mongoose from "mongoose";
+import config from "config";
 
 export function getFastifyServer(): FastifyInstance {
   const app = fastify({ logger: true });
 
-  routes.forEach(
-    (
-      route: RouteOptions<
-        Server,
-        IncomingMessage,
-        ServerResponse,
-        { Params: { id: string } }
-      >
-    ) => {
-      app.route(route);
-    }
-  );
+  routes(app);
 
   mongoose
-    .connect(
-      `mongodb://localhost:27017/bookbudz?directConnection=true&ssl=false`
-    )
+    .connect(config.get("mongo.url"))
     .then(() => app.log.info("MongoDB connected..."))
     .catch((err) => app.log.error(err));
 

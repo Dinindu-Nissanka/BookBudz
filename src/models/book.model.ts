@@ -1,29 +1,19 @@
 import mongoose from "mongoose";
-import { Book } from "../types/book";
+import { Book, IBook } from "../types";
+import { BookStatus } from "../constants";
 
-export interface IBook extends Document {
-  title: string;
-  originalPrice: number;
-  sellingPrice: number;
-  category: string;
-  status: string;
-  activityLog: [
-    {
-      field: string;
-      newValue: string;
-      oldValue: string;
-      createdAt: Date;
-    }
-  ];
-}
-
-const bookSchema = new mongoose.Schema(
+const BookSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
     originalPrice: { type: Number, required: true },
     sellingPrice: { type: Number, required: true },
     category: { type: String, required: true },
-    status: { type: String, required: true, default: "NOT_ADVERTISED" },
+    status: {
+      type: String,
+      enum: BookStatus,
+      required: true,
+      default: BookStatus.NOT_ADVERTISED,
+    },
     activityLog: [
       {
         field: String,
@@ -47,4 +37,4 @@ const bookSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model<IBook>("Books", bookSchema);
+export default mongoose.model<IBook>("Books", BookSchema);
