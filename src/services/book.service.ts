@@ -1,5 +1,5 @@
 import { BookSchema } from "../models";
-import { Book } from "../types";
+import { Book, CreateBookInput, UpdateBookInput } from "../types";
 import convert from "./convert";
 
 // Fetch all books
@@ -26,7 +26,7 @@ export const getSingleBook = async (id: string): Promise<Book> => {
 };
 
 // Create a new book
-export const addBook = async (payload: Book): Promise<Book> => {
+export const addBook = async (payload: CreateBookInput): Promise<Book> => {
   try {
     const book = new BookSchema(payload);
     const savedBook = await book.save();
@@ -37,7 +37,10 @@ export const addBook = async (payload: Book): Promise<Book> => {
 };
 
 // Update a single book
-export const updateBook = async (id: string, payload: Book): Promise<Book> => {
+export const updateBook = async (
+  id: string,
+  payload: UpdateBookInput
+): Promise<Book> => {
   try {
     let query: {
       $set?: any;

@@ -1,6 +1,7 @@
 import { IncomingMessage, Server, ServerResponse } from "http";
 import { RouteOptions } from "fastify";
 import { BooksController } from "../controllers";
+import { CreateBookInput, UpdateBookInput } from "../types";
 
 const getBooksRoute: RouteOptions = {
   method: "GET",
@@ -17,7 +18,12 @@ const getBookRoute: RouteOptions<
   url: "/api/books/:id",
   handler: BooksController.getSingleBook,
 };
-const postBookRoute: RouteOptions = {
+const postBookRoute: RouteOptions<
+  Server,
+  IncomingMessage,
+  ServerResponse,
+  { Params: { id: string }; Body: CreateBookInput }
+> = {
   method: "POST",
   url: "/api/books",
   handler: BooksController.addBook,
@@ -26,7 +32,7 @@ const putBookRoute: RouteOptions<
   Server,
   IncomingMessage,
   ServerResponse,
-  { Params: { id: string }; Body: Book }
+  { Params: { id: string }; Body: UpdateBookInput }
 > = {
   method: "PUT",
   url: "/api/books/:id",

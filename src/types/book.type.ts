@@ -16,6 +16,22 @@ type Book = {
   updatedAt: Date;
 };
 
+type CreateBookInput = {
+  title: Book["title"];
+  originalPrice: Book["originalPrice"];
+  sellingPrice: Book["sellingPrice"];
+  category: Book["category"];
+  status: Book["status"];
+};
+
+type UpdateBookInput = {
+  title?: Book["title"];
+  originalPrice?: Book["originalPrice"];
+  sellingPrice?: Book["sellingPrice"];
+  category?: Book["category"];
+  status?: Book["status"];
+};
+
 interface IBook extends Document {
   title: Book["title"];
   originalPrice: Book["originalPrice"];
@@ -27,4 +43,4 @@ interface IBook extends Document {
   updatedAt: Book["updatedAt"];
 }
 
-export type { Book, IBook };
+export type { Book, IBook, CreateBookInput, UpdateBookInput };

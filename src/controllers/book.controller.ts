@@ -1,5 +1,5 @@
 import { FastifyRequest } from "fastify";
-import { Book } from "../types";
+import { Book, CreateBookInput, UpdateBookInput } from "../types";
 import { BookService } from "../services";
 
 // Fetch all books
@@ -20,7 +20,7 @@ export const getSingleBook = async (
 // Create a new book
 export const addBook = async (
   req: FastifyRequest<{
-    Body: Book;
+    Body: CreateBookInput;
   }>
 ): Promise<Book> => {
   const payload = req.body;
@@ -31,11 +31,11 @@ export const addBook = async (
 export const updateBook = async (
   req: FastifyRequest<{
     Params: { id: string };
-    Body: Book;
+    Body: UpdateBookInput;
   }>
 ): Promise<Book> => {
   const id = req.params.id;
-  const payload: Book = req.body;
+  const payload: UpdateBookInput = req.body;
   return BookService.updateBook(id, payload);
 };
 
@@ -48,18 +48,3 @@ export const deleteBook = async (
   const id = req.params.id;
   return await BookService.deleteBook(id);
 };
-
-// Get
-// export const deleteBook = async (
-//   req: FastifyRequest<{
-//     Params: { id: string };
-//   }>
-// ) => {
-//   try {
-//     const id = req.params.id;
-//     const book = await BookSchema.findByIdAndRemove(id);
-//     return book;
-//   } catch (err) {
-//     throw err;
-//   }
-// };
