@@ -1,11 +1,11 @@
 import { BookSchema } from "../models";
-import { Book, CreateBookInput, UpdateBookInput } from "../types";
+import { Book, CreateBookInput, GetBookInput, UpdateBookInput } from "../types";
 import convert from "./convert";
 
 // Fetch all books
-export const getBooks = async (): Promise<Book[]> => {
+export const getBooks = async (args?: GetBookInput): Promise<Book[]> => {
   try {
-    const books = await BookSchema.find();
+    const books = await BookSchema.find({ ...args });
     return books.map(convert);
   } catch (err) {
     throw err;

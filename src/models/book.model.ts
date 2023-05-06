@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { Book, IBook } from "../types";
-import { BookStatus } from "../constants";
+import { BookStatusEnum } from "../constants";
 
 const BookSchema = new mongoose.Schema(
   {
@@ -10,9 +10,9 @@ const BookSchema = new mongoose.Schema(
     category: { type: String, required: true },
     status: {
       type: String,
-      enum: BookStatus,
+      enum: BookStatusEnum,
       required: true,
-      default: BookStatus.NOT_ADVERTISED,
+      default: BookStatusEnum.NOT_ADVERTISED,
     },
     activityLog: [
       {

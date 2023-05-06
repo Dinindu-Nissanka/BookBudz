@@ -1,4 +1,4 @@
-export enum BookStatus {
+export enum BookStatusEnum {
   NOT_ADVERTISED = "NOT_ADVERTISED",
   ADVERTISED = "ADVERTISED",
   DELETED = "DELETED",
